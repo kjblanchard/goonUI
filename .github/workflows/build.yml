@@ -16,9 +16,9 @@ jobs:
     steps:
       - name: Install packages
         run: |
-          apt update -y && apt upgrade -y
-          apt install cmake pkg-config sdl -y
-          apt install cmake pkg-config libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev  -y
+          sudo apt update -y && apt upgrade -y
+          sudo apt install cmake pkg-config sdl -y
+          sudo apt install cmake pkg-config libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev  -y
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Configure CMake
