@@ -99,8 +99,9 @@ find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 find_package(SDL2_image
     NAMES SDL2_Image libSDL2_Image SDL2_image libSDL2_image libSDL2_image
     REQUIRED
-    CONFIG COMPONENTS SDL2_image
-    HINTS /usr/local/lib)
+)
+    # CONFIG COMPONENTS SDL2_image
+    # HINTS /usr/local/lib)
 find_package(SDL2_ttf
     NAMES SDL2_ttf libSDL2_ttf SDL2_Ttf libSDL2_Ttf libSDL2_Ttf
     REQUIRED
