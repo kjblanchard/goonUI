@@ -37,6 +37,6 @@ package:
 rebuild: BUILD_SYSTEM = $(PRIMARY_BUILD_SYSTEM)
 rebuild: clean configure build install
 brebuild: BUILD_SYSTEM = $(BACKUP_BUILD_SYSTEM)
-rebuild: clean configure build install
+brebuild: clean configure build install
 run:
 	@cd ./$(BUILD_FOLDER)/$(BINARY_FOLDER) &&  ./$(BINARY_NAME)
