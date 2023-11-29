@@ -11,7 +11,7 @@ jobs:
         matrix:
           include:
           - os: ubuntu
-            make_cmd: rebuild
+            make_cmd: brebuild
     runs-on: ${{ matrix.os }}-latest
     steps:
       - name: Install packages
