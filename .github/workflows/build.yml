@@ -1,0 +1,25 @@
+name: Build All Platforms
+run-name: "Build All Platforms: ${{ github.actor }} 🚀"
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  Build-Desktop:
+    strategy:
+        matrix:
+          include:
+          - os: ubuntu
+            make_cmd: rebuild
+    runs-on: ${{ matrix.os }}-latest
+    steps:
+      - name: Install packages
+        run: |
+          apt update -y && apt upgrade -y
+          apt install cmake pkg-config sdl -y
+          apt install cmake pkg-config libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev  -y
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Configure CMake
+        run: make CMAKE_BUILD_TYPE=Release ${{ matrix.make_cmd}}
