@@ -13,6 +13,8 @@ set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
+
 # #########################################
 # File globbing
 # #########################################
@@ -109,11 +111,12 @@ find_package(SDL2_ttf
 find_package(SDL2 REQUIRED CONFIG COMPONENTS SDL2main)
 
 # Find lua static (non homebrew on mac)
-find_library(LIB_LUA
-    NAMES liblua_static lua_static liblua_static.a lua_static.a liblua.a
-    HINTS /usr/local/lib
-    REQUIRED)
-set(LUA_LIBRARIES ${LIB_LUA})
+find_package(Lua REQUIRED)
+# find_library(LIB_LUA
+#     NAMES liblua_static lua_static liblua_static.a lua_static.a liblua.a
+#     HINTS /usr/local/lib
+#     REQUIRED)
+# set(LUA_LIBRARIES ${LIB_LUA})
 
 # #########################################
 # Platform Specific Build settings
@@ -185,6 +188,7 @@ set(LIBRARIES_TO_LINK
     SDL2::SDL2-static
     SDL2_image::SDL2_image-static
     SDL2_ttf::SDL2_ttf-static
+    Lua
 )
 
 foreach(LIBRARY ${LIBRARIES_TO_LINK})
@@ -194,13 +198,6 @@ foreach(LIBRARY ${LIBRARIES_TO_LINK})
     endif()
 endforeach()
 
-# Handle non-targets
-target_link_libraries(${LIBRARY_TARGET_NAME}
-    PUBLIC
-    PRIVATE
-    ${LUA_LIBRARIES}
-)
-
 target_link_libraries(${EXECUTABLE_TARGET_NAME} PRIVATE ${LIBRARY_TARGET_NAME})
 
 # #########################################
@@ -209,11 +206,6 @@ target_link_libraries(${EXECUTABLE_TARGET_NAME} PRIVATE ${LIBRARY_TARGET_NAME})
 target_include_directories(${LIBRARY_TARGET_NAME}
 PUBLIC
 /usr/local/include)
-# target_include_directories(${EXECUTABLE_TARGET_NAME}
-#     PUBLIC
-#     ${CMAKE_CURRENT_SOURCE_DIR}/src/
-#     ${CMAKE_CURRENT_SOURCE_DIR}/src/shared/src
-# )
 
 target_include_directories(${LIBRARY_TARGET_NAME}
     PUBLIC
