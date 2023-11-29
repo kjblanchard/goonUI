@@ -17,7 +17,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 # File globbing
 # #########################################
 message(STATUS "Getting all files for cmake..")
-file(GLOB_RECURSE LIBRARY_FILES src/GoonUI/src/*.c* src/GoonUI/src/*.h*)
+file(GLOB_RECURSE LIBRARY_FILES src/GoonUI/src/*.c* src/GoonUI/src/*.h* src/shared/src/*.h* src/shared/src.*.c*)
 file(GLOB_RECURSE DESIGNER_FILES src/GoonDesigner/src/*.c* src/GoonDesigner/src/*.h*)
 
 # #########################################
@@ -90,14 +90,18 @@ endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 # #########################################
 # Packages
 # #########################################
+message(STATUS "Finding Packages")
+
 # 1. Look for a SDL2 package, 2. look for the SDL2 component and 3. fail if none can be found
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 find_package(SDL2_image
     NAMES SDL2_Image libSDL2_Image SDL2_image libSDL2_image libSDL2_image
+    REQUIRED
     CONFIG COMPONENTS SDL2_image
     HINTS /usr/local/lib)
 find_package(SDL2_ttf
     NAMES SDL2_ttf libSDL2_ttf SDL2_Ttf libSDL2_Ttf libSDL2_Ttf
+    REQUIRED
     CONFIG COMPONENTS SDL2_ttf
     HINTS /usr/local/lib)
 
@@ -202,11 +206,14 @@ target_link_libraries(${EXECUTABLE_TARGET_NAME} PRIVATE ${LIBRARY_TARGET_NAME})
 # #########################################
 # Include Option
 # #########################################
-target_include_directories(${EXECUTABLE_TARGET_NAME}
-    PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/shared/src
-)
+target_include_directories(${LIBRARY_TARGET_NAME}
+PUBLIC
+/usr/local/include)
+# target_include_directories(${EXECUTABLE_TARGET_NAME}
+#     PUBLIC
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/shared/src
+# )
 
 target_include_directories(${LIBRARY_TARGET_NAME}
     PUBLIC
@@ -220,13 +227,13 @@ target_include_directories(${LIBRARY_TARGET_NAME}
 # set(FOLDERS_TO_COPY src/Scripts assets)
 
 # if(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
-#     set(INSTALL_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>)
+# set(INSTALL_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>)
 # else()
-#     set(INSTALL_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+# set(INSTALL_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 # endif(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
 
 # install(DIRECTORY ${FOLDERS_TO_COPY}
-#     DESTINATION ${INSTALL_DIR}
+# DESTINATION ${INSTALL_DIR}
 # )
 
 # #########################################
